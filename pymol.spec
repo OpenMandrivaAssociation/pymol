@@ -14,6 +14,7 @@ BuildRoot: 	%_tmppath/%name-root
 Requires: 	python python-numeric tcl tk tkinter Pmw tcsh
 BuildRequires: 	python-devel python-numeric-devel tcl tk
 BuildRequires:	png-devel MesaGLU-devel libmesaglut-devel
+BuildRequires:	freetype2-devel
 
 %description
 PyMOL is a molecular graphics system with an embedded Python interpreter 
@@ -28,14 +29,21 @@ valuable tasks (such as editing PDB files) to assist you in your research.
 %setup -q
 
 %build
-%configure2_5x
-%make
+python ./setup.py build
 
 %install
-%makeinstall_std
+python ./setup.py install --root=%buildroot
 
-mkdir -p %buildroot%_bindir
-ln -s ../../%python_sitearch/pymol %buildroot%_bindir/pymol
+mkdir -p %{buildroot}%{_datadir}/%{name}
+cp -R scripts data %buildroot%_datadir/%{name}
+
+mkdir -p %{buildroot}%{_bindir}
+cat <<EOF >%{buildroot}%{_bindir}/%{name}
+export PYMOL_DATA=/usr/share/pymol/data
+export PYMOL_SCRIPTS=/usr/share/pymol/scripts
+
+python %{python_sitearch}/pymol/__init__.py $
+EOF
 
 # menu
 install -d $RPM_BUILD_ROOT%{_datadir}/applications
@@ -60,10 +68,9 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr (-,root,root)
-%doc CHANGES DEVELOPERS LICENSE README
-%doc doc
+%doc ChangeLog DEVELOPERS LICENSE README
 %doc examples
 %python_sitearch/*
 %_datadir/%name
-%attr(0755,root,root) %_bindir/%name
+%attr(0755,-,-) %_bindir/%name
 %_datadir/applications/*.desktop
