@@ -42,7 +42,7 @@ cat <<EOF >%{buildroot}%{_bindir}/%{name}
 export PYMOL_DATA=/usr/share/pymol/data
 export PYMOL_SCRIPTS=/usr/share/pymol/scripts
 
-python %{python_sitearch}/pymol/__init__.py $
+python %{python_sitearch}/pymol/__init__.py
 EOF
 
 # menu
