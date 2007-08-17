@@ -1,8 +1,6 @@
 %define name 	pymol
-%define version 0.98
-%define release 1mdk
-
-%define pyver	2.4
+%define version 1.0
+%define release %mkrel1
 
 Summary: 	PyMOL Molecular Graphics System
 Name: 		%name
@@ -11,8 +9,7 @@ Release: 	%release
 License: 	Python license
 Group: 		Sciences/Chemistry
 URL: 		http://www.pymol.org
-Source0: 	%name-0_98-src.tar.bz2
-#Patch:		%name-0.90-setup.patch.bz2
+Source: 	%name-%version.tar.bz2
 BuildRoot: 	%_tmppath/%name-root
 Requires: 	python python-numeric tcl tk tkinter Pmw tcsh
 BuildRequires: 	python-devel python-numeric-devel tcl tk
@@ -29,24 +26,27 @@ valuable tasks (such as editing PDB files) to assist you in your research.
 
 %prep
 %setup -q
-#%patch
+
+%build
+%configure2_5x
+%make
 
 %install
-python setup.py install --root=$RPM_BUILD_ROOT
-mkdir -p $RPM_BUILD_ROOT/%_bindir
-echo '#!/bin/sh' > $RPM_BUILD_ROOT/%_bindir/pymol
-echo '%{_bindir}/python %{_libdir}/python%{pyver}/site-packages/pymol/__init__.py $*' >> $RPM_BUILD_ROOT/%_bindir/pymol
-chmod 755 $RPM_BUILD_ROOT/%_bindir/pymol
+%makeinstall_std
+
+mkdir -p %buildroot%_bindir
+ln -s ../../%python_sitearch/pymol %buildroot%_bindir/pymol
 
 # menu
-install -d $RPM_BUILD_ROOT%{_menudir}
-cat << EOF > $RPM_BUILD_ROOT%{_menudir}/%{name}
-?package(%{name}):command="pymol"\
-needs="x11"\
-section="More Applications/Sciences/Chemistry"\
-title="PyMol"\
-icon="chemistry_section.png"\
-longtitle="Python controlled molecular graphics"
+install -d $RPM_BUILD_ROOT%{_datadir}/applications
+cat << EOF > $RPM_BUILD_ROOT%{_datadir}/applications/mandriva-%{name}.desktop
+[Desktop Entry]
+Name=PyMol
+Comment=Python controlled molecular graphics
+Exec=pymol
+Icon=pymol
+Type=Application
+Categories=Chemistry;Science
 EOF
 
 %clean
@@ -61,7 +61,9 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr (-,root,root)
 %doc CHANGES DEVELOPERS LICENSE README
-%_libdir/python*/site-packages/*
-%_bindir/%name
+%doc doc
+%doc examples
+%python_sitearch/*
+%_datadir/%name
+%attr(0755,root,root) %_bindir/%name
 %_menudir/%name
-
