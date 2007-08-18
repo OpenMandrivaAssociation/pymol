@@ -1,6 +1,6 @@
 %define name 	pymol
 %define version 1.0
-%define release %mkrel 1
+%define release %mkrel 2
 
 Summary: 	PyMOL Molecular Graphics System
 Name: 		%name
@@ -10,11 +10,12 @@ License: 	Python license
 Group: 		Sciences/Chemistry
 URL: 		http://www.pymol.org
 Source: 	%name-%version.tar.bz2
+Source1:	%name.png
 BuildRoot: 	%_tmppath/%name-root
 Requires: 	python python-numeric tcl tk tkinter Pmw tcsh
 BuildRequires: 	python-devel python-numeric-devel tcl tk
 BuildRequires:	png-devel MesaGLU-devel libmesaglut-devel
-BuildRequires:	freetype2-devel
+BuildRequires:	freetype2-devel ImageMagick
 
 %description
 PyMOL is a molecular graphics system with an embedded Python interpreter 
@@ -57,6 +58,11 @@ Type=Application
 Categories=Chemistry;Science
 EOF
 
+mkdir -p %{buildroot}{%{_iconsdir},%{_miconsdir},%{_liconsdir}}
+convert %SOURCE1 -resize 16x16 %buildroot%{_miconsdir}/%{name}.png
+convert %SOURCE1 -resize 32x32 %buildroot%{_iconsdir}/%{name}.png
+cp %SOURCE1 %buildroot%{_liconsdir}/%{name}.png
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -74,3 +80,6 @@ rm -rf $RPM_BUILD_ROOT
 %_datadir/%name
 %attr(0755,-,-) %_bindir/%name
 %_datadir/applications/*.desktop
+%{_iconsdir}/%{name}.png
+%{_miconsdir}/%{name}.png
+%{_liconsdir}/%{name}.png
