@@ -1,6 +1,6 @@
 %define name 	pymol
 %define version 1.0
-%define release %mkrel 2
+%define release %mkrel 3
 
 Summary: 	PyMOL Molecular Graphics System
 Name: 		%name
@@ -78,7 +78,7 @@ rm -rf $RPM_BUILD_ROOT
 %doc examples
 %python_sitearch/*
 %_datadir/%name
-%attr(0755,-,-) %_bindir/%name
+%attr(0755,root,root) %_bindir/%name
 %_datadir/applications/*.desktop
 %{_iconsdir}/%{name}.png
 %{_miconsdir}/%{name}.png
