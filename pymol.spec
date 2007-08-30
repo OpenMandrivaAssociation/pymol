@@ -55,7 +55,7 @@ Comment=Python controlled molecular graphics
 Exec=pymol
 Icon=pymol
 Type=Application
-Categories=Chemistry;Science
+Categories=Chemistry;Science;
 EOF
 
 mkdir -p %{buildroot}{%{_iconsdir},%{_miconsdir},%{_liconsdir}}
