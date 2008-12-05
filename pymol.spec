@@ -1,6 +1,6 @@
 %define name 	pymol
 %define version 1.0
-%define release %mkrel 6
+%define release %mkrel 7
 
 Summary: 	PyMOL Molecular Graphics System
 Name: 		%name
@@ -13,7 +13,7 @@ Source: 	%name-%version.tar.bz2
 Source1:	%name.png
 BuildRoot: 	%_tmppath/%name-root
 Requires: 	python python-numeric tcl tk tkinter Pmw tcsh
-BuildRequires: 	python-devel python-numeric-devel tcl tk
+BuildRequires: 	python-devel python-numeric-devel
 BuildRequires:	png-devel MesaGLU-devel libmesaglut-devel
 BuildRequires:	freetype2-devel ImageMagick
 
