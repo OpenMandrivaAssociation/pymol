@@ -15,7 +15,7 @@ BuildRoot: 	%_tmppath/%name-root
 Requires: 	python python-numeric tcl tk tkinter Pmw tcsh
 BuildRequires: 	python-devel python-numeric-devel
 BuildRequires:	png-devel MesaGLU-devel libmesaglut-devel
-BuildRequires:	freetype2-devel ImageMagick
+BuildRequires:	freetype2-devel imagemagick
 
 %description
 PyMOL is a molecular graphics system with an embedded Python interpreter 
