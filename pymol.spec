@@ -1,6 +1,6 @@
 %define name 	pymol
 %define version 1.0
-%define release %mkrel 7
+%define release %mkrel 8
 
 Summary: 	PyMOL Molecular Graphics System
 Name: 		%name
