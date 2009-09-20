@@ -1,6 +1,7 @@
 %define name 	pymol
-%define version 1.0
-%define release %mkrel 9
+%define version 1.2
+%define extraversion r1
+%define release %mkrel 1
 
 Summary: 	PyMOL Molecular Graphics System
 Name: 		%name
@@ -9,7 +10,7 @@ Release: 	%release
 License: 	Python license
 Group: 		Sciences/Chemistry
 URL: 		http://www.pymol.org
-Source: 	%name-%version.tar.bz2
+Source: 	http://ftp.de.debian.org/debian/pool/main/p/pymol/%{name}_%{version}%{extraversion}.orig.tar.gz
 Source1:	%name.png
 BuildRoot: 	%_tmppath/%name-root
 Requires: 	python python-numeric tcl tk tkinter Pmw tcsh
