@@ -1,20 +1,20 @@
-%define name 	pymol
+%define name	pymol
 %define version 1.2
-%define extraversion r1
-%define release %mkrel 1
+%define extraversion r2
+%define release %mkrel 0.%{extraversion}.1
 
-Summary: 	PyMOL Molecular Graphics System
-Name: 		%name
-Version: 	%version
-Release: 	%release
-License: 	Python license
-Group: 		Sciences/Chemistry
-URL: 		http://www.pymol.org
-Source: 	http://ftp.de.debian.org/debian/pool/main/p/pymol/%{name}_%{version}%{extraversion}.orig.tar.gz
+Summary:	PyMOL Molecular Graphics System
+Name:		%name
+Version:	%version
+Release:	%release
+License:	Python license
+Group:		Sciences/Chemistry
+URL:		http://www.pymol.org
+Source:		%{name}_%{version}%{extraversion}.tar.gz
 Source1:	%name.png
-BuildRoot: 	%_tmppath/%name-root
-Requires: 	python python-numeric tcl tk tkinter Pmw tcsh
-BuildRequires: 	python-devel python-numeric-devel
+BuildRoot:	%_tmppath/%name-root
+Requires:	python python-numeric tcl tk tkinter Pmw tcsh
+BuildRequires:	python-devel python-numeric-devel
 BuildRequires:	png-devel MesaGLU-devel libmesaglut-devel
 BuildRequires:	freetype2-devel imagemagick
 
@@ -34,6 +34,7 @@ valuable tasks (such as editing PDB files) to assist you in your research.
 python ./setup.py build
 
 %install
+rm -rf %{buildroot}
 python ./setup.py install --root=%buildroot
 
 mkdir -p %{buildroot}%{_datadir}/%{name}
