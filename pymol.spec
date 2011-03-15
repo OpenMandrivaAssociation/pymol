@@ -1,3 +1,10 @@
+### Attention to anyone touching this package
+### Please contact me prior to touching it since
+### this is a scientific package with a license evolution
+### since release 1.3 so we keep the old one for now, until 
+### any status update.
+### steletch@mandriva.com
+
 %define name	pymol
 %define version 1.2
 %define extraversion r2
