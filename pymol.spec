@@ -6,9 +6,10 @@
 ### steletch@mandriva.com
 
 %define name	pymol
-%define version 1.2
-%define extraversion r2
-%define release %mkrel 2.%{extraversion}.1
+%define version 1.4.1
+# %define extraversion r2
+# %define release %mkrel 1.%{extraversion}.1
+%define release %mkrel 1
 
 Summary:	PyMOL Molecular Graphics System
 Name:		%name
@@ -17,8 +18,9 @@ Release:	%release
 License:	Python license
 Group:		Sciences/Chemistry
 URL:		http://www.pymol.org
-Source:		%{name}_%{version}%{extraversion}.tar.gz
+Source:		%{name}-v%{version}.tar.bz2
 Source1:	%name.png
+Patch0:		add_missing_math_linker.patch
 BuildRoot:	%_tmppath/%name-root
 Requires:	python python-numeric tcl tk tkinter Pmw tcsh
 BuildRequires:	python-devel python-numeric-devel
@@ -35,7 +37,8 @@ animations with unprecedented ease. It can also perform many other
 valuable tasks (such as editing PDB files) to assist you in your research.
 
 %prep
-%setup -q
+%setup -q -n %{name}
+%patch0 -p1
 
 %build
 python ./setup.py build
