@@ -7,8 +7,8 @@
 
 %define name	pymol
 %define version 1.4.1
-# %define extraversion r2
-# %define release %mkrel 1.%{extraversion}.1
+# define extraversion r2
+# define release %mkrel 1.%{extraversion}.1
 %define release %mkrel 1
 
 Summary:	PyMOL Molecular Graphics System
