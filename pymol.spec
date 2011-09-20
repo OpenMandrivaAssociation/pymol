@@ -24,7 +24,7 @@ Patch0:		add_missing_math_linker.patch
 BuildRoot:	%_tmppath/%name-root
 Requires:	python python-numeric tcl tk tkinter Pmw tcsh
 BuildRequires:	python-devel python-numeric-devel
-BuildRequires:	png-devel MesaGLU-devel libmesaglut-devel
+BuildRequires:	png-devel MesaGLU-devel libmesaglut-devel libglew-devel
 BuildRequires:	freetype2-devel imagemagick
 
 %description
