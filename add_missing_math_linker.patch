@@ -1,0 +1,21 @@
+--- pymol/setup.py_orig	2011-09-16 14:36:39.000000000 +0200
++++ pymol/setup.py	2011-09-16 14:36:20.000000000 +0200
+@@ -161,7 +161,7 @@ else: # linux or other unix
+   
+ setup ( # Distribution meta-data
+     name = "pymol",
+-	version = "1.4.0", # see layer0/Version.h for updated version
++	version = "1.4.1", # see layer0/Version.h for updated version
+ 	package_dir = {'' : 'modules'},
+ 	packages = ['chempy',
+                 'chempy/bmin',
+@@ -421,7 +421,8 @@ setup ( # Distribution meta-data
+     "contrib/champ/strblock.c",
+     "contrib/champ/vla.c",
+     ],
+-    include_dirs=["contrib/champ"]
++    include_dirs=["contrib/champ"],
++    extra_link_args = ["-lm"]
+               ),
+     Extension("pymol.opengl.glu._glu_num", ["contrib/pyopengl/_glu_nummodule.c"],
+               include_dirs = inc_dirs,
