@@ -5,27 +5,31 @@
 ### any status update.
 ### steletch@mandriva.com
 
-%define name	pymol
-%define version 1.4.1
-# define extraversion r2
-# define release %mkrel 1.%{extraversion}.1
-%define release %mkrel 1
-
 Summary:	PyMOL Molecular Graphics System
-Name:		%name
-Version:	%version
-Release:	%release
+Name:		pymol
+Version:	1.4.1
+Release:	2
 License:	Python license
 Group:		Sciences/Chemistry
 URL:		http://www.pymol.org
 Source:		%{name}-v%{version}.tar.bz2
-Source1:	%name.png
+Source1:	%{name}.png
 Patch0:		add_missing_math_linker.patch
-BuildRoot:	%_tmppath/%name-root
-Requires:	python python-numeric tcl tk tkinter Pmw tcsh
-BuildRequires:	python-devel python-numeric-devel
-BuildRequires:	png-devel MesaGLU-devel libmesaglut-devel libglew-devel
-BuildRequires:	freetype2-devel imagemagick
+Requires:	python
+Requires:	python-numeric
+Requires:	tcl
+Requires:	tk
+Requires:	tkinter
+Requires:	Pmw
+Requires:	tcsh
+BuildRequires:	imagemagick
+BuildRequires:	python-devel
+BuildRequires:	python-numeric-devel
+BuildRequires:	pkgconfig(libpng)
+BuildRequires:	pkgconfig(glu)
+BuildRequires:	pkgconfig(glut)
+BuildRequires:	pkgconfig(glew)
+BuildRequires:	pkgconfig(freetype2)
 
 %description
 PyMOL is a molecular graphics system with an embedded Python interpreter 
@@ -44,8 +48,7 @@ valuable tasks (such as editing PDB files) to assist you in your research.
 python ./setup.py build
 
 %install
-rm -rf %{buildroot}
-python ./setup.py install --root=%buildroot
+python ./setup.py install --root=%{buildroot}
 
 mkdir -p %{buildroot}%{_datadir}/%{name}
 cp -R scripts data %buildroot%_datadir/%{name}
@@ -60,8 +63,8 @@ python %{python_sitearch}/pymol/__init__.py
 EOF
 
 # menu
-install -d $RPM_BUILD_ROOT%{_datadir}/applications
-cat << EOF > $RPM_BUILD_ROOT%{_datadir}/applications/mandriva-%{name}.desktop
+install -d %{buildroot}%{_datadir}/applications
+cat << EOF > %{buildroot}%{_datadir}/applications/mandriva-%{name}.desktop
 [Desktop Entry]
 Name=PyMol
 Comment=Python controlled molecular graphics
@@ -72,31 +75,18 @@ Categories=Chemistry;Science;
 EOF
 
 mkdir -p %{buildroot}{%{_iconsdir},%{_miconsdir},%{_liconsdir}}
-convert %SOURCE1 -resize 16x16 %buildroot%{_miconsdir}/%{name}.png
-convert %SOURCE1 -resize 32x32 %buildroot%{_iconsdir}/%{name}.png
-cp %SOURCE1 %buildroot%{_liconsdir}/%{name}.png
-
-%clean
-rm -rf $RPM_BUILD_ROOT
-
-%if %mdkversion < 200900
-%post
-%update_menus
-%endif
-
-%if %mdkversion < 200900
-%postun
-%clean_menus
-%endif
+convert %{SOURCE1} -resize 16x16 %{buildroot}%{_miconsdir}/%{name}.png
+convert %{SOURCE1} -resize 32x32 %{buildroot}%{_iconsdir}/%{name}.png
+cp %{SOURCE1} %{buildroot}%{_liconsdir}/%{name}.png
 
 %files
-%defattr (-,root,root)
 %doc ChangeLog DEVELOPERS LICENSE README
 %doc examples
-%python_sitearch/*
-%_datadir/%name
-%attr(0755,root,root) %_bindir/%name
-%_datadir/applications/*.desktop
+%{python_sitearch}/*
+%{_datadir}/%{name}
+%attr(0755,root,root) %{_bindir}/%{name}
+%{_datadir}/applications/*.desktop
 %{_iconsdir}/%{name}.png
 %{_miconsdir}/%{name}.png
 %{_liconsdir}/%{name}.png
+
