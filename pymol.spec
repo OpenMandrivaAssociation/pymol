@@ -5,7 +5,7 @@
 ### any status update.
 ### steletch@mandriva.com
 
-Summary:	PyMOL Molecular Graphics System
+Summary:	Molecular Graphics System
 Name:		pymol
 Version:	1.4.1
 Release:	2
