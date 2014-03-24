@@ -1,0 +1,11 @@
+--- pymol/contrib/uiuc/plugins/molfile_plugin/src/maeffplugin.cpp.orig	2014-03-24 06:05:58.969210030 +0000
++++ pymol/contrib/uiuc/plugins/molfile_plugin/src/maeffplugin.cpp	2014-03-24 06:06:14.752210534 +0000
+@@ -1983,7 +1983,7 @@
+       }
+     }
+     catch (std::exception &e) {
+-      fprintf(stderr, e.what());
++      fprintf(stderr, "%s", e.what());
+       return MOLFILE_ERROR;
+     }
+     return MOLFILE_SUCCESS;
