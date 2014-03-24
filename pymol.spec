@@ -7,14 +7,15 @@
 
 Summary:	Molecular Graphics System
 Name:		pymol
-Version:	1.4.1
-Release:	4
+Version:	1.7.0.0
+Release:	1
 License:	Python license
 Group:		Sciences/Chemistry
 URL:		http://www.pymol.org
 Source:		%{name}-v%{version}.tar.bz2
 Source1:	%{name}.png
 Patch0:		add_missing_math_linker.patch
+Patch1:		pymol-1.7.0.0-strfmt.patch
 Requires:	python
 Requires:	python-numeric
 Requires:	tcl
@@ -42,7 +43,7 @@ valuable tasks (such as editing PDB files) to assist you in your research.
 
 %prep
 %setup -q -n %{name}
-%patch0 -p1
+%apply_patches
 
 %build
 python ./setup.py build
