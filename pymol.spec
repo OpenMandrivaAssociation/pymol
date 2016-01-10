@@ -8,7 +8,7 @@
 Summary:	Molecular Graphics System
 Name:		pymol
 Version:	1.7.0.0
-Release:	2
+Release:	3
 License:	Python license
 Group:		Sciences/Chemistry
 URL:		http://www.pymol.org
