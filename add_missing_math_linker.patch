@@ -1,10 +1,10 @@
---- pymol/setup.py.orig	2014-03-24 06:11:11.179220011 +0000
-+++ pymol/setup.py	2014-03-24 06:11:43.370221040 +0000
-@@ -312,6 +312,7 @@
-         Extension("chempy.champ._champ",
-             get_sources(['contrib/champ']),
-             include_dirs=["contrib/champ"],
-+	    extra_link_args = ["-lm"]
-         ),
-     ],
- )
+--- pymol-1.8/setup.py.orig	2016-01-10 23:00:31.389287227 +0000
++++ pymol-1.8/setup.py	2016-01-10 23:01:37.321117084 +0000
+@@ -293,6 +293,7 @@
+     Extension("chempy.champ._champ",
+         get_sources(['contrib/champ']),
+         include_dirs=["contrib/champ"],
++        extra_link_args = ["-lm"]
+     ),
+ ]
+ 

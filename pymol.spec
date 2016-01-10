@@ -4,19 +4,21 @@
 ### since release 1.3 so we keep the old one for now, until 
 ### any status update.
 ### steletch@mandriva.com
+%define _disable_lto 1
+%define _disable_rebuild_configure 1
+%define _disable_ld_no_undefined 1
 
 Summary:	Molecular Graphics System
 Name:		pymol
-Version:	1.7.0.0
-Release:	3
+Version:	1.8
+Release:	1
 License:	Python license
 Group:		Sciences/Chemistry
 URL:		http://www.pymol.org
-Source:		%{name}-v%{version}.tar.bz2
+Source:		pymol-1.8-20151208svn4142.tar.xz
 Source1:	%{name}.png
 Patch0:		add_missing_math_linker.patch
-Patch1:		pymol-1.7.0.0-strfmt.patch
-Requires:	python
+Requires:	python2
 Requires:	python-numeric
 Requires:	tcl
 Requires:	tk
@@ -24,8 +26,9 @@ Requires:	tkinter
 Requires:	Pmw
 Requires:	tcsh
 BuildRequires:	imagemagick
-BuildRequires:	python-devel
+BuildRequires:	python2-devel
 BuildRequires:	python-numeric-devel
+BuildRequires:	python2-numpy-devel
 BuildRequires:	pkgconfig(libpng)
 BuildRequires:	pkgconfig(glu)
 BuildRequires:	pkgconfig(glut)
@@ -42,14 +45,17 @@ animations with unprecedented ease. It can also perform many other
 valuable tasks (such as editing PDB files) to assist you in your research.
 
 %prep
-%setup -q -n %{name}
+%setup -q -n %{name}-%{version}
 %apply_patches
 
 %build
-python ./setup.py build
+export CFLAGS=-fno-lto
+export CC=gcc
+export CXX=g++
+python2 ./setup.py build
 
 %install
-python ./setup.py install --root=%{buildroot}
+python2 ./setup.py install --root=%{buildroot}
 
 mkdir -p %{buildroot}%{_datadir}/%{name}
 cp -R scripts data %buildroot%_datadir/%{name}
@@ -60,7 +66,7 @@ export PYMOL_DATA=/usr/share/pymol/data
 export PYMOL_SCRIPTS=/usr/share/pymol/scripts
 export PYMOL_PATH=/usr/bin/pymol
 
-python %{python_sitearch}/pymol/__init__.py
+python2 %{python_sitearch}/pymol/__init__.py
 EOF
 
 # menu
@@ -83,7 +89,7 @@ cp %{SOURCE1} %{buildroot}%{_liconsdir}/%{name}.png
 %files
 %doc ChangeLog DEVELOPERS LICENSE README
 %doc examples
-%{python_sitearch}/*
+%{python2_sitearch}/*
 %{_datadir}/%{name}
 %attr(0755,root,root) %{_bindir}/%{name}
 %{_datadir}/applications/*.desktop
