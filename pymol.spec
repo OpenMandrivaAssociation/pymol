@@ -34,6 +34,7 @@ BuildRequires:	pkgconfig(glu)
 BuildRequires:	pkgconfig(glut)
 BuildRequires:	pkgconfig(glew)
 BuildRequires:	pkgconfig(freetype2)
+BuildRequires:	pkgconfig(libxml-2.0)
 
 %description
 PyMOL is a molecular graphics system with an embedded Python interpreter 
