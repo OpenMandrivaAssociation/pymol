@@ -10,31 +10,33 @@
 
 Summary:	Molecular Graphics System
 Name:		pymol
-Version:	1.8
+Version:	1.8.6.0
 Release:	1
 License:	Python license
 Group:		Sciences/Chemistry
 URL:		http://www.pymol.org
-Source:		pymol-1.8-20151208svn4142.tar.xz
+Source:		https://downloads.sourceforge.net/pymol/%{name}-v%{version}.tar.bz2
 Source1:	%{name}.png
 Patch0:		add_missing_math_linker.patch
-Requires:	python2
+
+BuildRequires:	imagemagick
+BuildRequires:	python-numeric-devel
+BuildRequires:	python-numpy-devel
+BuildRequires:	pkgconfig(freetype2)
+BuildRequires:	pkgconfig(glew)
+BuildRequires:	pkgconfig(glu)
+BuildRequires:	pkgconfig(glut)
+BuildRequires:	pkgconfig(libxml-2.0)
+BuildRequires:	pkgconfig(libpng)
+BuildRequires:	pkgconfig(python)
+
+Requires:	python
 Requires:	python-numeric
 Requires:	tcl
 Requires:	tk
 Requires:	tkinter
 Requires:	Pmw
 Requires:	tcsh
-BuildRequires:	imagemagick
-BuildRequires:	python2-devel
-BuildRequires:	python-numeric-devel
-BuildRequires:	python2-numpy-devel
-BuildRequires:	pkgconfig(libpng)
-BuildRequires:	pkgconfig(glu)
-BuildRequires:	pkgconfig(glut)
-BuildRequires:	pkgconfig(glew)
-BuildRequires:	pkgconfig(freetype2)
-BuildRequires:	pkgconfig(libxml-2.0)
 
 %description
 PyMOL is a molecular graphics system with an embedded Python interpreter 
@@ -46,17 +48,17 @@ animations with unprecedented ease. It can also perform many other
 valuable tasks (such as editing PDB files) to assist you in your research.
 
 %prep
-%setup -q -n %{name}-%{version}
+%setup -q -n %{name}
 %apply_patches
 
 %build
 export CFLAGS=-fno-lto
 export CC=gcc
 export CXX=g++
-python2 ./setup.py build
+%{__python} ./setup.py build
 
 %install
-python2 ./setup.py install --root=%{buildroot}
+%{__python} ./setup.py install --root=%{buildroot}
 
 mkdir -p %{buildroot}%{_datadir}/%{name}
 cp -R scripts data %buildroot%_datadir/%{name}
@@ -67,7 +69,7 @@ export PYMOL_DATA=/usr/share/pymol/data
 export PYMOL_SCRIPTS=/usr/share/pymol/scripts
 export PYMOL_PATH=/usr/bin/pymol
 
-python2 %{python_sitearch}/pymol/__init__.py
+%{__python} %{python_sitearch}/pymol/__init__.py
 EOF
 
 # menu
@@ -79,7 +81,7 @@ Comment=Python controlled molecular graphics
 Exec=pymol
 Icon=pymol
 Type=Application
-Categories=Chemistry;Science;
+Categories=Chemistry;Science;Education;
 EOF
 
 mkdir -p %{buildroot}{%{_iconsdir},%{_miconsdir},%{_liconsdir}}
@@ -90,7 +92,7 @@ cp %{SOURCE1} %{buildroot}%{_liconsdir}/%{name}.png
 %files
 %doc ChangeLog DEVELOPERS LICENSE README
 %doc examples
-%{python2_sitearch}/*
+%{python_sitearch}/*
 %{_datadir}/%{name}
 %attr(0755,root,root) %{_bindir}/%{name}
 %{_datadir}/applications/*.desktop
