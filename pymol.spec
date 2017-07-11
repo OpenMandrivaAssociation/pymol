@@ -28,7 +28,7 @@ BuildRequires:	pkgconfig(glu)
 BuildRequires:	pkgconfig(glut)
 BuildRequires:	pkgconfig(libxml-2.0)
 BuildRequires:	pkgconfig(libpng)
-BuildRequires:	pkgconfig(python)
+BuildRequires:	pkgconfig(python3)
 
 Requires:	python
 Requires:	python-numeric
