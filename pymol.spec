@@ -1,3 +1,6 @@
+%define oname PyMol
+%define name %(echo %oname | tr [:upper:] [:lower:])
+
 Summary:	Molecular Graphics System
 Name:		pymol
 Version:	1.8.6.0
@@ -81,10 +84,10 @@ cp -R scripts data %buildroot%_datadir/%{name}
 install -dm 0755 %{buildroot}%{_datadir}/applications/
 cat << EOF > %{buildroot}%{_datadir}/applications/mandriva-%{name}.desktop
 [Desktop Entry]
-Name=PyMol
+Name=%{oname}
 Comment=Python controlled molecular graphics
-Exec=pymol
-Icon=pymol
+Exec=%{name}
+Icon=%{name}
 Type=Application
 Categories=Chemistry;Science;Education;
 EOF
