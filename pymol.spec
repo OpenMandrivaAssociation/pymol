@@ -38,6 +38,19 @@ to the field, PyMOL can already be used to generate stunning images and
 animations with unprecedented ease. It can also perform many other 
 valuable tasks (such as editing PDB files) to assist you in your research.
 
+%files
+%doc ChangeLog DEVELOPERS LICENSE README
+%doc examples
+%{python_sitearch}/*
+%{_datadir}/%{name}
+%attr(0755,root,root) %{_bindir}/%{name}
+%{_datadir}/applications/*.desktop
+%{_iconsdir}/%{name}.png
+%{_miconsdir}/%{name}.png
+%{_liconsdir}/%{name}.png
+
+#---------------------------------------------------------------------------
+
 %prep
 %setup -q -n %{name}
 %apply_patches
@@ -51,10 +64,8 @@ export CXX=g++
 %install
 %{__python} ./setup.py install --root=%{buildroot}
 
-mkdir -p %{buildroot}%{_datadir}/%{name}
-cp -R scripts data %buildroot%_datadir/%{name}
-
-mkdir -p %{buildroot}%{_bindir}
+# launcher
+install -dm 0755 %{buildroot}%{_bindir}/
 cat <<EOF >%{buildroot}%{_bindir}/%{name}
 export PYMOL_DATA=/usr/share/pymol/data
 export PYMOL_SCRIPTS=/usr/share/pymol/scripts
@@ -63,8 +74,11 @@ export PYMOL_PATH=/usr/bin/pymol
 %{__python} %{python_sitearch}/pymol/__init__.py
 EOF
 
-# menu
-install -d %{buildroot}%{_datadir}/applications
+install -dm 0755  %{buildroot}%{_datadir}/%{name}/
+cp -R scripts data %buildroot%_datadir/%{name}
+
+# .desktop
+install -dm 0755 %{buildroot}%{_datadir}/applications/
 cat << EOF > %{buildroot}%{_datadir}/applications/mandriva-%{name}.desktop
 [Desktop Entry]
 Name=PyMol
@@ -75,19 +89,9 @@ Type=Application
 Categories=Chemistry;Science;Education;
 EOF
 
-mkdir -p %{buildroot}{%{_iconsdir},%{_miconsdir},%{_liconsdir}}
+# icons
+install -dm 0755 %{buildroot}{%{_iconsdir},%{_miconsdir},%{_liconsdir}}
 convert %{SOURCE1} -resize 16x16 %{buildroot}%{_miconsdir}/%{name}.png
 convert %{SOURCE1} -resize 32x32 %{buildroot}%{_iconsdir}/%{name}.png
-cp %{SOURCE1} %{buildroot}%{_liconsdir}/%{name}.png
-
-%files
-%doc ChangeLog DEVELOPERS LICENSE README
-%doc examples
-%{python_sitearch}/*
-%{_datadir}/%{name}
-%attr(0755,root,root) %{_bindir}/%{name}
-%{_datadir}/applications/*.desktop
-%{_iconsdir}/%{name}.png
-%{_miconsdir}/%{name}.png
-%{_liconsdir}/%{name}.png
+install -pm 0644 %{SOURCE1} %{buildroot}%{_liconsdir}/%{name}.png
 
