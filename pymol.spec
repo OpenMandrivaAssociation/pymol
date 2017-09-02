@@ -23,10 +23,10 @@ BuildRequires:	pkgconfig(python3)
 
 Requires:	python
 Requires:	python-numeric
+Requires:	python-pmw >= 2.0.0
 Requires:	tcl
 Requires:	tk
 Requires:	tkinter
-Requires:	Pmw
 Requires:	tcsh
 
 %description
