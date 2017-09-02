@@ -43,6 +43,7 @@ valuable tasks (such as editing PDB files) to assist you in your research.
 %apply_patches
 
 %build
+# clang fails with 'unterminated function-like macro invocation' error
 export CC=gcc
 export CXX=g++
 %{__python} ./setup.py build
