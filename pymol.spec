@@ -1,13 +1,3 @@
-### Attention to anyone touching this package
-### Please contact me prior to touching it since
-### this is a scientific package with a license evolution
-### since release 1.3 so we keep the old one for now, until 
-### any status update.
-### steletch@mandriva.com
-%define _disable_lto 1
-%define _disable_rebuild_configure 1
-%define _disable_ld_no_undefined 1
-
 Summary:	Molecular Graphics System
 Name:		pymol
 Version:	1.8.6.0
@@ -53,7 +43,6 @@ valuable tasks (such as editing PDB files) to assist you in your research.
 %apply_patches
 
 %build
-export CFLAGS=-fno-lto
 export CC=gcc
 export CXX=g++
 %{__python} ./setup.py build
