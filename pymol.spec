@@ -1,40 +1,36 @@
-### Attention to anyone touching this package
-### Please contact me prior to touching it since
-### this is a scientific package with a license evolution
-### since release 1.3 so we keep the old one for now, until 
-### any status update.
-### steletch@mandriva.com
-%define _disable_lto 1
-%define _disable_rebuild_configure 1
-%define _disable_ld_no_undefined 1
+%define oname PyMol
+%define name %(echo %oname | tr [:upper:] [:lower:])
 
 Summary:	Molecular Graphics System
 Name:		pymol
-Version:	1.8
+Version:	1.8.6.0
 Release:	1
 License:	Python license
 Group:		Sciences/Chemistry
 URL:		http://www.pymol.org
-Source:		pymol-1.8-20151208svn4142.tar.xz
+Source:		https://downloads.sourceforge.net/pymol/%{name}-v%{version}.tar.bz2
 Source1:	%{name}.png
 Patch0:		add_missing_math_linker.patch
-Requires:	python2
+
+BuildRequires:	imagemagick
+BuildRequires:	python-numeric-devel
+BuildRequires:	python-numpy-devel
+BuildRequires:	pkgconfig(freetype2)
+BuildRequires:	pkgconfig(glew)
+BuildRequires:	pkgconfig(glu)
+BuildRequires:	pkgconfig(glut)
+BuildRequires:	pkgconfig(libxml-2.0)
+BuildRequires:	pkgconfig(libpng)
+BuildRequires:	pkgconfig(msgpack)
+BuildRequires:	pkgconfig(python3)
+
+Requires:	python
 Requires:	python-numeric
+Requires:	python-pmw >= 2.0.0
 Requires:	tcl
 Requires:	tk
 Requires:	tkinter
-Requires:	Pmw
 Requires:	tcsh
-BuildRequires:	imagemagick
-BuildRequires:	python2-devel
-BuildRequires:	python-numeric-devel
-BuildRequires:	python2-numpy-devel
-BuildRequires:	pkgconfig(libpng)
-BuildRequires:	pkgconfig(glu)
-BuildRequires:	pkgconfig(glut)
-BuildRequires:	pkgconfig(glew)
-BuildRequires:	pkgconfig(freetype2)
-BuildRequires:	pkgconfig(libxml-2.0)
 
 %description
 PyMOL is a molecular graphics system with an embedded Python interpreter 
@@ -45,56 +41,60 @@ to the field, PyMOL can already be used to generate stunning images and
 animations with unprecedented ease. It can also perform many other 
 valuable tasks (such as editing PDB files) to assist you in your research.
 
-%prep
-%setup -q -n %{name}-%{version}
-%apply_patches
-
-%build
-export CFLAGS=-fno-lto
-export CC=gcc
-export CXX=g++
-python2 ./setup.py build
-
-%install
-python2 ./setup.py install --root=%{buildroot}
-
-mkdir -p %{buildroot}%{_datadir}/%{name}
-cp -R scripts data %buildroot%_datadir/%{name}
-
-mkdir -p %{buildroot}%{_bindir}
-cat <<EOF >%{buildroot}%{_bindir}/%{name}
-export PYMOL_DATA=/usr/share/pymol/data
-export PYMOL_SCRIPTS=/usr/share/pymol/scripts
-export PYMOL_PATH=/usr/bin/pymol
-
-python2 %{python_sitearch}/pymol/__init__.py
-EOF
-
-# menu
-install -d %{buildroot}%{_datadir}/applications
-cat << EOF > %{buildroot}%{_datadir}/applications/mandriva-%{name}.desktop
-[Desktop Entry]
-Name=PyMol
-Comment=Python controlled molecular graphics
-Exec=pymol
-Icon=pymol
-Type=Application
-Categories=Chemistry;Science;
-EOF
-
-mkdir -p %{buildroot}{%{_iconsdir},%{_miconsdir},%{_liconsdir}}
-convert %{SOURCE1} -resize 16x16 %{buildroot}%{_miconsdir}/%{name}.png
-convert %{SOURCE1} -resize 32x32 %{buildroot}%{_iconsdir}/%{name}.png
-cp %{SOURCE1} %{buildroot}%{_liconsdir}/%{name}.png
-
 %files
 %doc ChangeLog DEVELOPERS LICENSE README
 %doc examples
-%{python2_sitearch}/*
+%{python_sitearch}/*
 %{_datadir}/%{name}
 %attr(0755,root,root) %{_bindir}/%{name}
 %{_datadir}/applications/*.desktop
 %{_iconsdir}/%{name}.png
 %{_miconsdir}/%{name}.png
 %{_liconsdir}/%{name}.png
+
+#---------------------------------------------------------------------------
+
+%prep
+%setup -q -n %{name}
+%apply_patches
+
+%build
+# clang fails with 'unterminated function-like macro invocation' error
+export CC=gcc
+export CXX=g++
+%{__python} ./setup.py build
+
+%install
+%{__python} ./setup.py install --root=%{buildroot}
+
+# launcher
+install -dm 0755 %{buildroot}%{_bindir}/
+cat <<EOF >%{buildroot}%{_bindir}/%{name}
+export PYMOL_DATA=/usr/share/pymol/data
+export PYMOL_SCRIPTS=/usr/share/pymol/scripts
+export PYMOL_PATH=/usr/bin/pymol
+
+%{__python} %{python_sitearch}/pymol/__init__.py
+EOF
+
+install -dm 0755  %{buildroot}%{_datadir}/%{name}/
+cp -R scripts data %buildroot%_datadir/%{name}
+
+# .desktop
+install -dm 0755 %{buildroot}%{_datadir}/applications/
+cat << EOF > %{buildroot}%{_datadir}/applications/mandriva-%{name}.desktop
+[Desktop Entry]
+Name=%{oname}
+Comment=Python controlled molecular graphics
+Exec=%{name}
+Icon=%{name}
+Type=Application
+Categories=Chemistry;Science;Education;
+EOF
+
+# icons
+install -dm 0755 %{buildroot}{%{_iconsdir},%{_miconsdir},%{_liconsdir}}
+convert %{SOURCE1} -resize 16x16 %{buildroot}%{_miconsdir}/%{name}.png
+convert %{SOURCE1} -resize 32x32 %{buildroot}%{_iconsdir}/%{name}.png
+install -pm 0644 %{SOURCE1} %{buildroot}%{_liconsdir}/%{name}.png
 
