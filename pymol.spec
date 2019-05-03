@@ -23,6 +23,7 @@ BuildRequires:	pkgconfig(libxml-2.0)
 BuildRequires:	pkgconfig(libpng)
 BuildRequires:	pkgconfig(msgpack)
 BuildRequires:	pkgconfig(python3)
+BuildRequires:  pkgconfig(glm)
 
 Requires:	python
 Requires:	python-numeric
