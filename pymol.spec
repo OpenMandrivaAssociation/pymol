@@ -13,7 +13,7 @@ Source1:	%{name}.png
 Patch0:		add_missing_math_linker.patch
 
 BuildRequires:	imagemagick
-BuildRequires:	python-numeric-devel
+#BuildRequires:	python-numeric-devel
 BuildRequires:	python-numpy-devel
 BuildRequires:	pkgconfig(freetype2)
 BuildRequires:	pkgconfig(glew)
