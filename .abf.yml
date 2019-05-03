@@ -1,6 +1,3 @@
-old_sources:
-  pymol-1.8-20151208svn4142.tar.xz: 7cd52a8b89fed808f2f1f5473080ea989d87fe5a
-  pymol-v1.7.0.0.tar.bz2: b663c3779fc50a709adb8bfd8c275a7e44c4b54d
 sources:
   pymol.png: 111f484f55d710be55abcbfbfa80f03457dfe74c
-  pymol-v1.8.6.0.tar.bz2: bd0972a519d7f604fe3a7fee3dff0f90b2b42267
+  pymol-open-source-2.3.0.tar.gz: 64a470a2111f31aa6ed25bad8768e0eba7481924
