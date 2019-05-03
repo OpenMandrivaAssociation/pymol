@@ -8,7 +8,7 @@ Release:	1
 License:	Python license
 Group:		Sciences/Chemistry
 URL:		http://www.pymol.org
-Source:		https://downloads.sourceforge.net/pymol/%{name}-v%{version}.tar.bz2
+Source:		https://github.com/schrodinger/pymol-open-source/archive/v%{version}/%{name}-open-source-%{version}.tar.gz
 Source1:	%{name}.png
 Patch0:		add_missing_math_linker.patch
 
@@ -55,7 +55,7 @@ valuable tasks (such as editing PDB files) to assist you in your research.
 #---------------------------------------------------------------------------
 
 %prep
-%setup -q -n %{name}
+%setup -q -n %{name}-open-source-%{version}
 %apply_patches
 
 %build
