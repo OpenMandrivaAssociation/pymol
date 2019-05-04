@@ -24,6 +24,7 @@ BuildRequires:	pkgconfig(libpng)
 BuildRequires:	pkgconfig(msgpack)
 BuildRequires:	pkgconfig(python3)
 BuildRequires:  pkgconfig(glm)
+BuildRequires:  mmtf-cpp-devel
 
 Requires:	python
 Requires:	python-numeric
