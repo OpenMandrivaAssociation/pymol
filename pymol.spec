@@ -56,7 +56,7 @@ valuable tasks (such as editing PDB files) to assist you in your research.
 
 %prep
 %setup -q -n %{name}
-%apply_patches
+%autopatch -p1
 
 %build
 # clang fails with 'unterminated function-like macro invocation' error
