@@ -23,6 +23,7 @@ BuildRequires:	desktop-file-utils
 BuildRequires:	imagemagick
 #BuildRequires: catch-devel
 BuildRequires:	mmtf-cpp-devel
+BuildRequires:  gomp-devel
 BuildRequires:	pkgconfig(appstream-glib)
 BuildRequires:	pkgconfig(freetype2)
 BuildRequires:	pkgconfig(glew)
