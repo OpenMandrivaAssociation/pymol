@@ -1,0 +1,15 @@
+diff --git a/layer1/Basis.h b/layer1/Basis.h
+index e235d3cab..23b19abd8 100644
+--- a/layer1/Basis.h
++++ b/layer1/Basis.h
+@@ -38,6 +38,10 @@ Z* -------------------------------------------------------------------
+ 
+ */
+ 
++#ifdef None
++#undef None
++#endif
++
+ enum class cCylCap {
+   None = 0,
+   Flat = 1,

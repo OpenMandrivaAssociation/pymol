@@ -3,30 +3,56 @@
 
 Summary:	Molecular Graphics System
 Name:		pymol
-Version:	1.8.6.0
+Version:	2.5.0
 Release:	1
-License:	Python license
+# Which files use following license:
+# BSD: main license of open source PyMOL and some plugins
+# MIT: modules/pymol_web/examples/sample13/jquery.js
+# Bitstream Vera: layer1/FontTTF.h
+# OFL: layer1/FontTTF2.h
+License:	MIT and BSD and Bitstream Vera and OFL
 Group:		Sciences/Chemistry
 URL:		http://www.pymol.org
-Source:		https://downloads.sourceforge.net/pymol/%{name}-v%{version}.tar.bz2
+Source0:	https://github.com/schrodinger/pymol-open-source/archive/v%{version}/%{name}-open-source-%{version}.tar.gz
 Source1:	%{name}.png
-Patch0:		add_missing_math_linker.patch
+#Patch0:		add_missing_math_linker.patch
+# (upstream) https://github.com/schrodinger/pymol-open-source/issues/186
+Patch100: %{name}-2.5.0-commit_a37118f6780dd9f76cf0a89155801e54cdb2e14d.patch
 
+BuildRequires:	desktop-file-utils
 BuildRequires:	imagemagick
-BuildRequires:	python-numeric-devel
-BuildRequires:	python-numpy-devel
+#BuildRequires: catch-devel
+BuildRequires:	mmtf-cpp-devel
+BuildRequires:	pkgconfig(appstream-glib)
 BuildRequires:	pkgconfig(freetype2)
 BuildRequires:	pkgconfig(glew)
+BuildRequires:	pkgconfig(glm)
 BuildRequires:	pkgconfig(glu)
 BuildRequires:	pkgconfig(glut)
-BuildRequires:	pkgconfig(libxml-2.0)
 BuildRequires:	pkgconfig(libpng)
+BuildRequires:	pkgconfig(libxml-2.0)
 BuildRequires:	pkgconfig(msgpack)
+BuildRequires:	pkgconfig(netcdf)
+BuildRequires:	pkgconfig(pyside2)
 BuildRequires:	pkgconfig(python3)
+BuildRequires:	python3dist(setuptools)
+BuildRequires:	python3dist(simplejson)
+BuildRequires:	python3dist(numpy)
+# Qt interface
+BuildRequires: pkgconfig(freeglut)
+BuildRequires: pkgconfig(pyside2)
+BuildRequires: python3dist(pyqt5)
 
+#Requires:	apbs
+Requires:	chemical-mime-data
+Requires:	python-numpy
+Requires:	mmtf-cpp
+Requires:	Pmw
+Requires:	tkinter
+# Qt interface
 Requires:	python
-Requires:	python-numeric
-Requires:	python-pmw >= 2.0.0
+Requires:	python-qt5
+# tk interface
 Requires:	tcl
 Requires:	tk
 Requires:	tkinter
@@ -55,30 +81,32 @@ valuable tasks (such as editing PDB files) to assist you in your research.
 #---------------------------------------------------------------------------
 
 %prep
-%setup -q -n %{name}
-%autopatch -p1
+%autosetup -p1 -n %{name}-open-source-%{version}
+ln -sr modules/web modules/pymol_web
 
 %build
+export CXXFLAGS="%{optflags}"
+export CPPFLAGS="%{optflags}"
 # clang fails with 'unterminated function-like macro invocation' error
 export CC=gcc
 export CXX=g++
-%{__python} ./setup.py build
+%py3_build --use-msgpackc=c++11 --use-openmp=yes --jobs `/usr/bin/getconf _NPROCESSORS_ONLN`
 
 %install
-%{__python} ./setup.py install --root=%{buildroot}
+%py3_install -- --use-msgpackc=c++11 --use-openmp=yes --pymol-path=%{python3_sitearch}/%{name}
 
 # launcher
 install -dm 0755 %{buildroot}%{_bindir}/
 cat <<EOF >%{buildroot}%{_bindir}/%{name}
 export PYMOL_DATA=/usr/share/pymol/data
-export PYMOL_SCRIPTS=/usr/share/pymol/scripts
+#export PYMOL_SCRIPTS=/usr/share/pymol/scripts
 export PYMOL_PATH=/usr/bin/pymol
 
 %{__python} %{python_sitearch}/pymol/__init__.py
 EOF
 
 install -dm 0755  %{buildroot}%{_datadir}/%{name}/
-cp -R scripts data %buildroot%_datadir/%{name}
+cp -R data %buildroot%_datadir/%{name}
 
 # .desktop
 install -dm 0755 %{buildroot}%{_datadir}/applications/
