@@ -91,10 +91,12 @@ export CPPFLAGS="%{optflags}"
 # clang fails with 'unterminated function-like macro invocation' error
 export CC=gcc
 export CXX=g++
-%py3_build --use-msgpackc=c++11 --use-openmp=yes --jobs `/usr/bin/getconf _NPROCESSORS_ONLN`
+#py3_build --use-msgpackc=c++11 --use-openmp=yes --jobs `/usr/bin/getconf _NPROCESSORS_ONLN`
+%{__python} ./setup.py build --use-msgpackc=c++11 --use-openmp=yes --jobs `/usr/bin/getconf _NPROCESSORS_ONLN`
 
 %install
-%py3_install -- --use-msgpackc=c++11 --use-openmp=yes --pymol-path=%{python3_sitearch}/%{name}
+#py3_install -- --use-msgpackc=c++11 --use-openmp=yes --pymol-path=%{python3_sitearch}/%{name}
+%{__python} ./setup.py install --use-msgpackc=c++11 --use-openmp=yes --pymol-path=%{python3_sitearch}/%{name} --root=%{buildroot}
 
 # launcher
 install -dm 0755 %{buildroot}%{_bindir}/
