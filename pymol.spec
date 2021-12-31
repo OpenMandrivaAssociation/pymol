@@ -94,7 +94,7 @@ export CXX=g++
 %{__python} ./setup.py build --use-msgpackc=c++11 --use-openmp=yes --jobs `/usr/bin/getconf _NPROCESSORS_ONLN`
 
 %install
-%{__python} ./setup.py install  -- --use-msgpackc=c++11 --use-openmp=yes --pymol-path=%{python3_sitearch}/%{name} --root=%{buildroot}
+%{__python} ./setup.py install  --use-msgpackc=c++11 --use-openmp=yes --pymol-path=%{python3_sitearch}/%{name} --root=%{buildroot}
 
 # launcher
 install -dm 0755 %{buildroot}%{_bindir}/
