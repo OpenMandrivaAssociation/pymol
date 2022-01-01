@@ -1,3 +1,5 @@
+%global _disable_ld_no_undefined %nil
+
 %define oname PyMol
 %define name %(echo %oname | tr [:upper:] [:lower:])
 
@@ -86,7 +88,7 @@ valuable tasks (such as editing PDB files) to assist you in your research.
 ln -sr modules/web modules/pymol_web
 
 %build
-export CXXFLAGS="%{optflags}"
+%setup_compile_flags
 export CPPFLAGS="%{optflags}"
 # clang fails with 'unterminated function-like macro invocation' error
 export CC=gcc
