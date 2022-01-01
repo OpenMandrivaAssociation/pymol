@@ -1,4 +1,5 @@
-%global _disable_ld_no_undefined %nil
+%define _empty_manifest_terminate_build 0
+#global _disable_ld_no_undefined %nil
 
 %define oname PyMol
 %define name %(echo %oname | tr [:upper:] [:lower:])
