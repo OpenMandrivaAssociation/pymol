@@ -1,5 +1,5 @@
---- pymol-1.8/setup.py.orig	2016-01-10 23:00:31.389287227 +0000
-+++ pymol-1.8/setup.py	2016-01-10 23:01:37.321117084 +0000
+--- a/setup.py
++++ b/setup.py
 @@ -293,6 +293,7 @@
      Extension("chempy.champ._champ",
          get_sources(['contrib/champ']),

@@ -1,5 +1,4 @@
 %define _empty_manifest_terminate_build 0
-#global _disable_ld_no_undefined %nil
 
 %define oname PyMol
 %define name %(echo %oname | tr [:upper:] [:lower:])
@@ -7,7 +6,7 @@
 Summary:	Molecular Graphics System
 Name:		pymol
 Version:	2.5.0
-Release:	1
+Release:	2
 # Which files use following license:
 # BSD: main license of open source PyMOL and some plugins
 # MIT: modules/pymol_web/examples/sample13/jquery.js
@@ -18,7 +17,7 @@ Group:		Sciences/Chemistry
 URL:		http://www.pymol.org
 Source0:	https://github.com/schrodinger/pymol-open-source/archive/v%{version}/%{name}-open-source-%{version}.tar.gz
 Source1:	%{name}.png
-#Patch0:		add_missing_math_linker.patch
+Patch0:		add_missing_math_linker.patch
 # (upstream) https://github.com/schrodinger/pymol-open-source/issues/186
 Patch100: %{name}-2.5.0-commit_a37118f6780dd9f76cf0a89155801e54cdb2e14d.patch
 
@@ -91,6 +90,7 @@ ln -sr modules/web modules/pymol_web
 %build
 %setup_compile_flags
 export CPPFLAGS="%{optflags}"
+export LDFLAGS="%{ldflags} `pkgconf --libs python3-embed`"
 # clang fails with 'unterminated function-like macro invocation' error
 export CC=gcc
 export CXX=g++
