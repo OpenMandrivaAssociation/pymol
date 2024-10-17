@@ -14,7 +14,7 @@ Release:	2
 # OFL: layer1/FontTTF2.h
 License:	MIT and BSD and Bitstream Vera and OFL
 Group:		Sciences/Chemistry
-URL:		http://www.pymol.org
+URL:		https://www.pymol.org
 Source0:	https://github.com/schrodinger/pymol-open-source/archive/v%{version}/%{name}-open-source-%{version}.tar.gz
 Source1:	%{name}.png
 Patch0:		add_missing_math_linker.patch
